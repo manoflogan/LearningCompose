@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.krishnanand.jetpackcompose.basics.ui.composables.Greeting
+import com.krishnanand.jetpackcompose.basics.ui.composables.MyApp
 import com.krishnanand.jetpackcompose.basics.ui.theme.JetpackComposeBasicsTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,7 +23,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             JetpackComposeBasicsTheme {
                 // A surface container using the 'background' color from the theme
-                Greeting("Android")
+               MyApp()
             }
         }
     }
