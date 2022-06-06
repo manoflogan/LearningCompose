@@ -26,6 +26,7 @@ import com.krishnanand.jetpackcompose.basics.ui.theme.JetpackComposeBasicsTheme
 
 @Composable
 fun Greeting(name: String) {
+    var isExpanded by remember { mutableStateOf(false) }
     Surface (
         modifier = Modifier
             .padding(horizontal = 8.dp, vertical = 4.dp),
@@ -34,9 +35,6 @@ fun Greeting(name: String) {
         Row(modifier= Modifier
             .padding(24.dp)
             .fillMaxWidth()) {
-            var isExpanded by remember {
-                mutableStateOf(false)
-            }
            Column(modifier = Modifier.weight(1f)) {
                 Text(text = "Hello")
                 Text(text = name)
