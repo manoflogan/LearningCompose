@@ -2,6 +2,7 @@ package com.krishnanand.jetpackcompose.basics.ui.composables
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.MaterialTheme
@@ -19,19 +20,17 @@ import com.krishnanand.jetpackcompose.basics.ui.theme.JetpackComposeBasicsTheme
 fun Greeting(name: String) {
     Surface (
         modifier = Modifier
-            .wrapContentHeight()
-            .wrapContentHeight()
-            .padding(8.dp),
+            .padding(horizontal = 8.dp, vertical = 4.dp),
         color = MaterialTheme.colors.primary
     ) {
-       Column(
-           verticalArrangement = Arrangement.Center,
-           horizontalAlignment = Alignment.CenterHorizontally,
-           modifier = Modifier.padding(24.dp)
-       ) {
-           Text(text = "Hello")
-           Text(text = name)
-       }
+         Column(
+            modifier = Modifier
+                .padding(24.dp)
+                .fillMaxWidth()
+         ) {
+             Text(text = "Hello")
+             Text(text = name)
+        }
     }
 }
 
@@ -44,8 +43,10 @@ fun DefaultPreview() {
 }
 
 @Composable
-fun MyApp() {
-    Surface(color=MaterialTheme.colors.background) {
-        Greeting("Android")
+fun MyApp(names: List<String> = listOf("Android", "Compose")) {
+    Column(modifier = Modifier.padding(vertical =4.dp )) {
+        for (name in names ) {
+            Greeting(name)
+        }
     }
 }
