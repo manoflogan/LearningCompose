@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.krishnanand.jetpackcompose.basics.ui.composables.Greeting
 import com.krishnanand.jetpackcompose.basics.ui.composables.MyApp
+import com.krishnanand.jetpackcompose.basics.ui.composables.OnboardingScreen
 import com.krishnanand.jetpackcompose.basics.ui.theme.JetpackComposeBasicsTheme
 
 class MainActivity : ComponentActivity() {
