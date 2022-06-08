@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
@@ -25,32 +27,40 @@ import com.krishnanand.jetpackcompose.basics.ui.theme.JetpackComposeBasicsTheme
 
 
 @Composable
-fun Greeting(name: String) {
-    var isExpanded by remember { mutableStateOf(false) }
-    val addExtraPadding = if (isExpanded) {
-         48.dp
-    } else {
-        0.dp
-    }
+fun Greeting(names: List<String>) {
     Surface (
         modifier = Modifier
             .padding(horizontal = 8.dp, vertical = 4.dp),
         color = MaterialTheme.colors.primary
     ) {
-        Row(modifier= Modifier
-            .padding(24.dp)
-            .fillMaxWidth()) {
-           Column(modifier = Modifier
-               .weight(1f)
-               .padding(addExtraPadding)) {
-                Text(text = "Hello")
-                Text(text = name)
-            }
-            OutlinedButton(onClick = {
-                    isExpanded = !isExpanded
+        LazyColumn(modifier = Modifier.padding(4.dp)) {
+            items(names) { name ->
+                var isExpanded by remember { mutableStateOf(false) }
+                val addExtraPadding = if (isExpanded) {
+                    48.dp
+                } else {
+                    0.dp
                 }
-            ) {
-                    Text(text = if (isExpanded) "Show Less" else "Show More")
+                Row(
+                    modifier = Modifier
+                        .padding(24.dp)
+                        .fillMaxWidth()
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(addExtraPadding)
+                    ) {
+                        Text(text = "Hello")
+                        Text(text = name)
+                    }
+                    OutlinedButton(onClick = {
+                        isExpanded = !isExpanded
+                    }
+                    ) {
+                        Text(text = if (isExpanded) "Show Less" else "Show More")
+                    }
+                }
             }
         }
     }
@@ -60,13 +70,15 @@ fun Greeting(name: String) {
 @Composable
 fun DefaultPreview() {
     JetpackComposeBasicsTheme {
-        Greeting("Android")
+        Greeting(listOf("Android"))
     }
 }
 
 @Composable
 @Preview(showBackground = true, widthDp = 320, heightDp = 320)
-fun MyApp(names: List<String> = listOf("Android", "Compose")) {
+fun MyApp(names: List<String> = List(100) {
+    it.toString()
+}) {
     var onboarding by remember { mutableStateOf(true) }
     if (onboarding) {
         OnboardingScreen {
@@ -74,9 +86,7 @@ fun MyApp(names: List<String> = listOf("Android", "Compose")) {
         }
     } else {
         Column(modifier = Modifier.padding(vertical = 4.dp)) {
-            for (name in names) {
-                Greeting(name)
-            }
+            Greeting(names)
         }
     }
 }
