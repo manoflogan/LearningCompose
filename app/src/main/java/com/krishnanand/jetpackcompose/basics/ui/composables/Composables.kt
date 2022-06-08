@@ -65,7 +65,7 @@ fun DefaultPreview() {
 }
 
 @Composable
-@Preview
+@Preview(showBackground = true, widthDp = 320, heightDp = 320)
 fun MyApp(names: List<String> = listOf("Android", "Compose")) {
     var onboarding by remember { mutableStateOf(true) }
     if (onboarding) {
