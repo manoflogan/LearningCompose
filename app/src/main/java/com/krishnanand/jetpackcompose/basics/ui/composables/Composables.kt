@@ -1,6 +1,9 @@
 package com.krishnanand.jetpackcompose.basics.ui.composables
 
 
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,7 +20,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -32,34 +34,43 @@ fun Greeting(names: List<String>) {
     Surface (
         modifier = Modifier
             .padding(horizontal = 8.dp, vertical = 4.dp),
-        color = MaterialTheme.colors.primary
     ) {
-        LazyColumn(modifier = Modifier.padding(4.dp)) {
+        LazyColumn(modifier = Modifier.padding(vertical = 4.dp)) {
             items(names) { name ->
-                var isExpanded by remember { mutableStateOf(false) }
-                val addExtraPadding = if (isExpanded) {
-                    48.dp
-                } else {
-                    0.dp
-                }
-                Row(
-                    modifier = Modifier
-                        .padding(24.dp)
-                        .fillMaxWidth()
-                ) {
-                    Column(
+                // To save the example after scrolling and not being visblle
+                var isExpanded by rememberSaveable { mutableStateOf(false) }
+                val addExtraPadding by animateDpAsState(
+                    if (isExpanded) {
+                        48.dp
+                    } else {
+                        0.dp
+                    },
+                    animationSpec = spring(
+                        dampingRatio = Spring.DampingRatioMediumBouncy,
+                        stiffness = Spring.StiffnessLow
+                    )
+                )
+                Surface(modifier = Modifier.padding(4.dp),
+                    color = MaterialTheme.colors.primary) {
+                    Row(
                         modifier = Modifier
-                            .weight(1f)
-                            .padding(addExtraPadding)
+                            .padding(24.dp)
+                            .fillMaxWidth()
                     ) {
-                        Text(text = "Hello")
-                        Text(text = name)
-                    }
-                    OutlinedButton(onClick = {
-                        isExpanded = !isExpanded
-                    }
-                    ) {
-                        Text(text = if (isExpanded) "Show Less" else "Show More")
+                        Column(
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(bottom = addExtraPadding.coerceAtLeast(0.dp))
+                        ) {
+                            Text(text = "Hello")
+                            Text(text = name)
+                        }
+                        OutlinedButton(onClick = {
+                            isExpanded = !isExpanded
+                        }
+                        ) {
+                            Text(text = if (isExpanded) "Show Less" else "Show More")
+                        }
                     }
                 }
             }
