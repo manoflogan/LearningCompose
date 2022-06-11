@@ -1,6 +1,7 @@
 package com.krishnanand.jetpackcompose.basics.ui.composables
 
 
+import android.content.res.Configuration
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
@@ -24,6 +25,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.krishnanand.jetpackcompose.basics.ui.theme.JetpackComposeBasicsTheme
@@ -63,7 +65,9 @@ fun Greeting(names: List<String>) {
                                 .padding(bottom = addExtraPadding.coerceAtLeast(0.dp))
                         ) {
                             Text(text = "Hello")
-                            Text(text = name)
+                            Text(text = name, style = MaterialTheme.typography.h4.copy(
+                                fontWeight = FontWeight.Bold
+                            ))
                         }
                         OutlinedButton(onClick = {
                             isExpanded = !isExpanded
@@ -79,6 +83,12 @@ fun Greeting(names: List<String>) {
 }
 
 @Preview(showBackground = true)
+@Preview(
+    showBackground = true,
+    widthDp = 320,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    name = "DefaultPreviewDark"
+)
 @Composable
 fun DefaultPreview() {
     JetpackComposeBasicsTheme {
