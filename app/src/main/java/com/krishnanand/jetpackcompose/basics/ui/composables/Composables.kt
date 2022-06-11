@@ -2,22 +2,32 @@ package com.krishnanand.jetpackcompose.basics.ui.composables
 
 
 import android.content.res.Configuration
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Expand
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,9 +35,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.krishnanand.jetpackcompose.basics.R
 import com.krishnanand.jetpackcompose.basics.ui.theme.JetpackComposeBasicsTheme
 
 
@@ -66,14 +79,38 @@ fun Greeting(names: List<String>) {
                         ) {
                             Text(text = "Hello")
                             Text(text = name, style = MaterialTheme.typography.h4.copy(
-                                fontWeight = FontWeight.Bold
-                            ))
+                                fontWeight = FontWeight.Bold)
+                            )
+                            val density = LocalDensity.current
+                            AnimatedVisibility(visible = isExpanded,
+                               /* enter = slideInVertically {
+                                    with(density) { 10.dp.roundToPx() }
+                                },
+                                exit = slideOutVertically {
+                                    with(density) {
+                                        -10.dp.roundToPx()
+                                    }
+                                }*/
+                            ) {
+                                Text(text = stringResource(R.string.loren_ipsum))
+                            }
                         }
-                        OutlinedButton(onClick = {
+                        IconButton(onClick = {
                             isExpanded = !isExpanded
-                        }
-                        ) {
-                            Text(text = if (isExpanded) "Show Less" else "Show More")
+                        }) {
+                            Icon(
+                                imageVector = if (isExpanded) {
+                                    Icons.Filled.ExpandLess
+                                } else {
+                                    Icons.Filled.ExpandMore
+                                },
+                                contentDescription = stringResource(if (isExpanded) {
+                                        R.string.show_less
+                                    } else {
+                                        R.string.show_more
+                                    }
+                                )
+                            )
                         }
                     }
                 }
